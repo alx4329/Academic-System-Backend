@@ -1,9 +1,6 @@
 const { Router } = require('express');
-const { conn } = require('../db.js');
-const { Career, Subject } = require('../db');
+const { Career } = require('../db');
 const router = require('express').Router();
-const fetch = require("node-fetch");
-const db = require('../db.js');
 
 router.get('/',async function(req,res){
     try {

@@ -1,9 +1,5 @@
-const { Router } = require('express');
-const { conn } = require('../db.js');
-const { Career, Subject } = require('../db');
+const { Subject } = require('../db');
 const router = require('express').Router();
-const fetch = require("node-fetch");
-const db = require('../db.js');
 const createSubject = require('../functions/createSubject');
 
 router.get('/',async function(req,res){
@@ -43,17 +39,19 @@ router.post('/', async function(req, res) {
 
 router.put('/', async function(req,res){
     let { name, code, toCourse, toTakeExam } = req.body;
-    let { careerId } = req.query;
+    let { subjectId } = req.query;
     try{
-        let career = await Career.update({
+        let subject = await Subject.update({
             name,
-            code
+            code,
+            toCourse,
+            toTakeExam
         },{
             where: {
-                id: careerId
+                id: subjectId
             }
         })
-        res.send(career)
+        res.send(subject)
     }catch(e){
         console.log(e)
         res.send({'error': e})
