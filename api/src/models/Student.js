@@ -14,7 +14,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    DNI: {
+    dni: {
       type: DataTypes.INTEGER,
       unique: true,
       allowNull: false,
@@ -32,6 +32,10 @@ module.exports = (sequelize) => {
     //en realidad esto tampoco hace falta
     examenes:{
         type: DataTypes.ARRAY(DataTypes.STRING),
-    }
+    },
+    fileNumber:{
+        type: DataTypes.STRING,
+        unique: true,
+      }
   });
 };
