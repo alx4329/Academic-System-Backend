@@ -49,8 +49,17 @@ Student.belongsTo(Career);
 Student.belongsToMany(Subject, { through: 'student_subject' });
 Subject.belongsToMany(Student, { through: 'student_subject' });
 
-Student.belongsToMany(Exam, { through: 'student_exam' });
-Exam.belongsToMany(Student, { through: 'student_exam' });
+Student.hasMany(Exam);
+Exam.belongsTo(Student); 
+
+Subject.hasMany(Exam);
+Exam.belongsTo(Subject);
+
+Career.hasMany(Exam);
+Exam.belongsTo(Career);
+
+Teacher.hasMany(Exam);
+Exam.belongsTo(Teacher);
 
 User.hasOne(Teacher);
 Teacher.belongsTo(User);

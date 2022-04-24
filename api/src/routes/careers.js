@@ -15,7 +15,7 @@ router.get('/',async function(req,res){
             res.send(career)
         } else {
             let careers = await Career.findAll()            
-            res.send(games)
+            res.send(careers)
         }        
     } catch (error){
         console.log(error)
@@ -49,8 +49,6 @@ router.post('/', async function(req, res) {
         console.log(e)
         res.send({'error': e})
     }
-    
-    res.json(gameCreated)
 })
 
 router.put('/', async function(req,res){
