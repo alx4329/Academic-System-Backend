@@ -1,10 +1,12 @@
 const { Router } = require('express');
 const { Exam, Career, Subject, Student, Teacher } = require('../db');
 const router = require('express').Router();
-
+const validUUID= new RegExp(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i)
 router.get('/',async function(req,res){
     try {
-        let examId = req.query.exam
+        let {examId} = req.query
+        const validId=(validUUID).test(examId)
+            if(!validId) return res.status(404).send({message: "El id de la carrera no es valido"})
         if(examId){
             let exam = await Exam.findOne({
                 where: {
@@ -25,6 +27,10 @@ router.get('/',async function(req,res){
 router.post('/', async function(req, res) {
     // console.log(req.body); 
     let {careerId, subjectName, studentId, teacherId, score, date} =req.body; 
+        const validId=(validUUID).test(careerId)
+        const validId2=(validUUID).test(teacherId)
+        const validId3=(validUUID).test(studentId)
+            if(!validId || !validId2 || ! validId3) return res.status(404).send({message: "Alguno de los id no es valido"})
     try{
         let career = await Career.findOne({
             where:{
@@ -71,6 +77,8 @@ router.post('/', async function(req, res) {
 
 router.delete('/', async function(req,res){
     let { examId } = req.query;
+    const validId=(validUUID).test(examId)
+            if(!validId) return res.status(404).send({message: "El id de la carrera no es valido"})
     try{
         let exam = await Exam.destroy({
             where: {

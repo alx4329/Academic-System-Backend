@@ -9,11 +9,11 @@ module.exports = (sequelize) => {
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
     },
-    nombre: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    codigo: {
+    code: {
       type: DataTypes.STRING,
       unique: true,
       allowNull: false,

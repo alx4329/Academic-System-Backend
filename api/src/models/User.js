@@ -24,6 +24,10 @@ module.exports = (sequelize) => {
     //   type: DataTypes.ARRAY(DataTypes.STRING),
      
     // },
+    email:{
+      type: DataTypes.STRING,
+      unique: true,
+    },
     dni: {
       type: DataTypes.INTEGER,
       allowNull: true
