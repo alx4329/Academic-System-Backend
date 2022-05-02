@@ -34,7 +34,7 @@ router.post('/', async function(req, res) {
         res.send({'error': e})
     }
     
-    res.json(gameCreated)
+    
 })
 
 router.put('/', async function(req,res){

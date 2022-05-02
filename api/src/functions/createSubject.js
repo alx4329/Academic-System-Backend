@@ -12,7 +12,7 @@ const createSubject =  (name, code, toCourse, toTakeExam) =>{
             })
             resolve(subject)
         }catch(e){
-            //reject(e)
+            reject(e)
         }
     })
 }
