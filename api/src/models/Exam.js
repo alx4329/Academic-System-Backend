@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     studentName: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       unique: true,
       allowNull: false,
     },

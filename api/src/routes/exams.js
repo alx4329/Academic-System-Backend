@@ -1,13 +1,12 @@
-const { Router } = require('express');
 const { Exam, Career, Subject, Student, Teacher } = require('../db');
 const router = require('express').Router();
 const validUUID= new RegExp(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i)
 router.get('/',async function(req,res){
     try {
         let {examId} = req.query
-        const validId=(validUUID).test(examId)
-            if(!validId) return res.status(404).send({message: "El id de la carrera no es valido"})
         if(examId){
+            const validId=(validUUID).test(examId)
+            if(!validId) return res.status(404).send({message: "El id de la carrera no es valido"})
             let exam = await Exam.findOne({
                 where: {
                     id: examId
@@ -15,7 +14,7 @@ router.get('/',async function(req,res){
             })
             exam ? res.send(exam) : res.status(404).send({message: "No se encontro el examen"})
         } else {
-            let exams = await Career.findAll()            
+            let exams = await Exam.findAll()            
             res.send(exams)
         }        
     } catch (error){
