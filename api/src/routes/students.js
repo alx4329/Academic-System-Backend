@@ -1,5 +1,5 @@
-const { Router } = require('express');
-const { Career, Subject, Teacher, Student } = require('../db');
+
+const { Career, Student, User } = require('../db');
 const router = require('express').Router();
 
 router.get('/',async function(req,res){
@@ -25,10 +25,15 @@ router.get('/',async function(req,res){
 
 
 router.post('/', async function(req, res) {
-    // console.log(req.body); 
+    
     let { name, dni, fileNumber, career } =req.body; 
 
     try{
+        if(!name || !dni || !fileNumber || !career) return res.send({message: 'Completar todos los campos'})
+        let user = await User.findOne({
+            where: {dni}
+        })
+        if(!user) return res.status(404).send({message: "No se encontro el usuario"})
         let careerId = await Career.findOne({
             where: {
                 name: career
@@ -41,6 +46,7 @@ router.post('/', async function(req, res) {
                 fileNumber
             })
             await student.setCareer(careerId)
+            await user.setStudent(student)
             student ? res.send(student) : res.status(404).send({message: "No se pudo crear el estudiante"})
         } else {
             res.status(404).send({message: "No se encontro la carrera"})
@@ -50,20 +56,20 @@ router.post('/', async function(req, res) {
         res.send({'error': e})
     }
     
-    res.json(gameCreated)
+    
 })
 //probar esta ruta 
 router.put('/', async function(req,res){
     let { name, dni,fileNumber } = req.body;
-    let { studentId } = req.query;
+    
     try{
-        let student = await Career.update({
+        let student = await Student.update({
             name,
             dni,
             fileNumber
         },{
             where: {
-                id: studentId
+                dni
             }
         })
         res.send(student)
