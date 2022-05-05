@@ -42,8 +42,8 @@ router.post('/signin', async function(req, res) {
                         email: user.email
                     }
                 })
-            }else return res.json({error: 'Email and password no corresponden'})
-        }else return res.json({error: 'User not found'})
+            }else return res.status(401).json({error: 'Alguno de los datos no es valido'})
+        }else return res.status(401).json({error: 'Alguno de los datos no es valido'})
     }catch(err){
         console.log(err)
     }
