@@ -1,8 +1,9 @@
-const { User } = require('../db');
+const { User, Admin } = require('../db');
 const router = require('express').Router();
 require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+
 
 const validUUID= new RegExp(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i)
 
@@ -13,15 +14,38 @@ router.post('/signup',async function(req,res){
         const user = await User.findOne({where: {dni}});
 
         if(user){
-            return res.send({error: 'User already exists'})
+            return res.status(500).send({error: 'User already exists'})
         } else {
             const hashedPassword = await bcrypt.hash(password, 10);
-            const newUser = await User.create({email, password: hashedPassword, username, rol, nombre, dni});
-            const token = jwt.sign({id: newUser.id}, process.env.SECRET_KEY);
-            return res.send({token});
+            const newUser = await User.create({
+                email, 
+                password: hashedPassword, 
+                username, 
+                rol, 
+                nombre, 
+                dni
+            });
+            
+            if(rol === 'Admin'){
+                console.log("deberia crear Admin")
+                const newAdmin = await Admin.create({ 
+                    name: nombre, 
+                    dni
+                });
+                newUser.setAdmin(newAdmin);
+            }
+            return res.send({user:{
+                id: newUser.id,
+                rol: newUser.rol,
+                nombre: newUser.nombre,
+                email: newUser.email,
+                dni: newUser.dni
+            }});
         }
     }catch(e){
         console.log(e)
+        e.errors? res.status(500).send({error: e.errors[0].message}) : res.status(500).send({error: e.message})
+        
     }
 })
 

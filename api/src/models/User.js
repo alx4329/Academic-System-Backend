@@ -11,12 +11,11 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     rol: {
-      type: DataTypes.ENUM('admin', 'docente', 'estudiante'),
+      type: DataTypes.ENUM('Admin', 'Docente', 'Estudiante'),
       allowNull: false,
     },
     nombre: {
       type: DataTypes.STRING,
-      unique: true,
       allowNull: false,
     },
     // Este no deberia ser necesario

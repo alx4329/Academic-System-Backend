@@ -8,15 +8,9 @@ const users = require('./users')
 const jwt = require('jsonwebtoken');
 const router = Router();
 
-router.use('/careers', careers);
-router.use('/subjects', subjects);
-router.use('/teachers', teachers);
-router.use('/students', students);
-router.use('/exams', exams);
-router.use('/users', users);
-
 const sessionChecker = async ( req, res, next) => {
     const authorization = req.get('authorization');
+    console.log("AUTHORIZATION",authorization)
     let token = null
     if (authorization && authorization.lowerCase().startsWith('bearer ')){
         token = authorization.substring(7)
@@ -35,4 +29,12 @@ const sessionChecker = async ( req, res, next) => {
         next()
     }
 }
+
+router.use('/careers', careers);
+router.use('/subjects', subjects);
+router.use('/teachers', teachers);
+router.use('/students', students);
+router.use('/exams', exams);
+router.use('/users', users);
+
 module.exports = router;
