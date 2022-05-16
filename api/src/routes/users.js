@@ -1,4 +1,4 @@
-const { User, Admin } = require('../db');
+const { User, Admin, Teacher, Student } = require('../db');
 const router = require('express').Router();
 require('dotenv').config();
 const bcrypt = require('bcrypt');
@@ -10,7 +10,7 @@ const validUUID= new RegExp(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0
 
 router.post('/signup',async function(req,res){
     try{
-        const {rol, nombre, email, dni,  username,password,} = req.body;        
+        const {rol, nombre, email, dni,  username,password, fileNumber} = req.body;        
         const user = await User.findOne({where: {dni}});
 
         if(user){
@@ -34,7 +34,26 @@ router.post('/signup',async function(req,res){
                 });
                 newUser.setAdmin(newAdmin);
             }
-            return res.send({user:{
+            if(rol === 'Docente'){
+                console.log("deberia crear Teacher")
+                const newAdmin = await Teacher.create({ 
+                    name: nombre, 
+                    dni,
+                    fileNumber
+                });
+                newUser.setTeacher(newAdmin);
+            }
+            if(rol === 'Estudiante'){
+                console.log("deberia crear Student")
+                const newAdmin = await Student.create({ 
+                    name: nombre, 
+                    dni,
+                    fileNumber
+                });
+                newUser.setStudent(newAdmin);
+            }
+            return res.send({
+                user:{
                 id: newUser.id,
                 rol: newUser.rol,
                 nombre: newUser.nombre,
