@@ -84,6 +84,7 @@ router.post('/signin', async function(req, res) {
                         username: user.username,
                         email: user.email,
                         rol: user.rol,
+                        nombre: user.nombre,
                     }
                 })
             }else {
