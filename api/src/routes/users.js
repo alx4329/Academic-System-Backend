@@ -98,4 +98,18 @@ router.post('/signin', async function(req, res) {
 })
 
 
+router.delete('/', async function(req,res){
+    try{
+        const {dni} = req.body;
+        const user = await User.findOne({where:{dni}});
+        if(user){
+            await user.destroy();
+            return res.send({message: 'User deleted'})
+        }else {
+            return res.status(401).json({error: 'User not found'})}
+    }catch(err){
+        console.log(err)
+    }
+})
+
 module.exports = router;
