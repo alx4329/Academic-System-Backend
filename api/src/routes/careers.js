@@ -13,7 +13,7 @@ router.get('/',async function(req,res){
                     id: careerId
                 }
             })
-            career? res.send(career): res.status(404).send({message: "No se encontro la carrera"})
+            career? res.send(career): res.status(500).status(404).send({error: "No se encontro la carrera"})
         } else {
             let careers = await Career.findAll()            
             // console.log(careers)
@@ -36,7 +36,7 @@ router.post('/', async function(req, res) {
         res.send(career)
     }catch(e){
         console.log(e)
-        res.send({'error': e})
+        res.status(500).send({'error': e})
     }
 })
 
@@ -81,7 +81,7 @@ router.delete('/', async function(req,res){
         res.send(career)
     }catch(e){
         console.log(e)
-        res.send({'error': e})
+        res.status(500).send({'error': e})
     }
 })
 
@@ -99,7 +99,7 @@ router.put('/state', async function(req,res){
         res.send(career)
     }catch(e){
         console.log(e)
-        res.send({'error': e})
+        res.status(500).send({'error': e})
     }
 })
 
