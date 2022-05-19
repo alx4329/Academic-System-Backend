@@ -24,6 +24,9 @@ module.exports = (sequelize) => {
     //   type: DataTypes.ARRAY(DataTypes.STRING),
      
     // },
+    year:{
+      type: DataTypes.INTEGER,
+    },
     toCourse: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true

@@ -12,10 +12,17 @@ router.post('/signup',async function(req,res){
     try{
         const {rol, nombre, email, dni,  username,password, fileNumber} = req.body;        
         const user = await User.findOne({where: {dni}});
-
         if(user){
-            return res.status(500).send({error: 'User already exists'})
+            return res.status(500).send({error: 'El usuario ya existe'})
         } else {
+            if(rol === "Estudiante"){
+                const student = await Student.findOne({where: {fileNumber}});
+                if(student) return res.status(400).send({message: "El numero de legajo ya existe"})
+            }
+            if(rol === "Docente"){
+                const docente = await Teacher.findOne({where: {fileNumber}});
+                if(docente) return res.status(400).send({message: "El numero de legajo ya existe"})
+            }
             const hashedPassword = await bcrypt.hash(password, 10);
             const newUser = await User.create({
                 email, 

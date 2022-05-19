@@ -23,11 +23,11 @@ router.get('/',async function(req,res){
 
 router.post('/', async function(req, res) {
     
-    let { name, code, toCourse, toTakeExam } =req.body; 
-    if(!name || !code) return res.send({message: 'Completar todos los campos'})
+    let { name, code,year, toCourse, toTakeExam, careerId } =req.body;
+    if(!name || !code || !careerId) return res.send({message: 'Completar todos los campos'})
 
     try{
-       const subject = await createSubject(name, code, toCourse, toTakeExam)
+       const subject = await createSubject(name, code,year, toCourse, toTakeExam, careerId)
         res.send(subject)
     }catch(e){
         console.log(e)
