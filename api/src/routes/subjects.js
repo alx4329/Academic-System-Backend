@@ -24,7 +24,7 @@ router.get('/',async function(req,res){
 router.post('/', async function(req, res) {
     
     let { name, code,year, toCourse, toTakeExam, careerId } =req.body;
-    if(!name || !code || !careerId) return res.send({message: 'Completar todos los campos'})
+    if(!name || !code || !careerId) return res.status(403).send({message: 'Completar todos los campos'})
 
     try{
        const subject = await createSubject(name, code,year, toCourse, toTakeExam, careerId)

@@ -3,9 +3,9 @@ const { Career, Subject } = require('../db');
 
 const router = require('express').Router();
 const validUUID= new RegExp(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i)
-router.get('/',async function(req,res){
+router.get('/:careerId',async function(req,res){
     try {
-        let {careerId} = req.body
+        let {careerId} = req.params
         if(careerId){
             const validId=(validUUID).test(careerId)
             if(!validId) return res.status(404).send({message: "El id de la carrera no es valido"})
