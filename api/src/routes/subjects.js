@@ -1,4 +1,4 @@
-const { Subject } = require('../db');
+const { Subject, Career } = require('../db');
 const router = require('express').Router();
 const createSubject = require('../functions/createSubject');
 
@@ -23,15 +23,24 @@ router.get('/',async function(req,res){
 
 router.post('/', async function(req, res) {
     
-    let { name, code,year, toCourse, toTakeExam, careerId } =req.body;
+    let { name, code,year, toCourse, toTakeExam, careerId, lastSubject,period} =req.body;
     if(!name || !code || !careerId) return res.status(403).send({message: 'Completar todos los campos'})
 
     try{
-       const subject = await createSubject(name, code,year, toCourse, toTakeExam, careerId)
+        const subject = await createSubject(name, code,year, toCourse, toTakeExam, careerId,period)
+        if(lastSubject){
+            await Career.update({
+                completed: true,
+            },{
+                where:{
+                    id: careerId
+                }
+            })
+       }
         res.send(subject)
     }catch(e){
         console.log(e)
-        res.send({'error': e})
+        res.status(500).send({'error': e})
     }
     
     

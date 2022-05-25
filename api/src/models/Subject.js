@@ -27,6 +27,10 @@ module.exports = (sequelize) => {
     year:{
       type: DataTypes.INTEGER,
     },
+    period:{
+      type: DataTypes.ENUM('Anual','Primero','Segundo'),
+
+    },
     toCourse: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true
