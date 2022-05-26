@@ -22,6 +22,10 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
     },
+    years:{
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     completed:{
       type: DataTypes.BOOLEAN,
       defaultValue: false,

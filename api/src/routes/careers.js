@@ -30,11 +30,12 @@ router.get('/',async function(req,res){
 
 router.post('/', async function(req, res) {
     // console.log(req.body); 
-    let { name, code } =req.body; 
+    let { name, code, years } =req.body; 
     try{
         let career = await Career.create({
             name,
-            code
+            code,
+            years
         })
         res.send(career)
     }catch(e){
