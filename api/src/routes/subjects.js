@@ -24,7 +24,7 @@ router.get('/',async function(req,res){
 router.post('/', async function(req, res) {
     
     let { name, code,year, toCourse, toTakeExam, careerId, lastSubject,period} =req.body;
-    if(!name || !code || !careerId) return res.status(403).send({message: 'Completar todos los campos'})
+    if(!name || !code || !careerId) return res.status(400).send({message: 'Completar todos los campos'})
 
     try{
         const subject = await createSubject(name, code,year, toCourse, toTakeExam, careerId,period)
@@ -39,8 +39,9 @@ router.post('/', async function(req, res) {
        }
         res.send(subject)
     }catch(e){
-        console.log(e)
-        res.status(500).send({'error': e})
+        console.log(e.errors[0].message)
+        e.errors[0]?.message ? res.status(400).send({message: e.errors[0].message}) : res.status(500).send({message: "Error al crear la materia"})
+        
     }
     
     
