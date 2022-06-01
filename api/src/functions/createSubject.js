@@ -2,7 +2,7 @@ const {  Subject, Career } = require('../db.js');
 
 
 
-const createSubject =  (name, code,year, toCourse, toTakeExam, careerId) =>{
+const createSubject =  (name, code,year, toCourse, toTakeExam, careerId,period) =>{
     return new Promise(async (resolve, reject) => {
         try{
             let subject = await Subject.create({
@@ -10,7 +10,8 @@ const createSubject =  (name, code,year, toCourse, toTakeExam, careerId) =>{
                 code,
                 year,
                 toCourse: toCourse,
-                toTakeExam: toTakeExam
+                toTakeExam: toTakeExam,
+                period
             })
             const career = await Career.findOne({
                 where: {

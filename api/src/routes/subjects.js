@@ -22,8 +22,8 @@ router.get('/',async function(req,res){
 })
 
 router.post('/', async function(req, res) {
-    
     let { name, code,year, toCourse, toTakeExam, careerId, lastSubject,period} =req.body;
+    console.log("period",period)
     if(!name || !code || !careerId) return res.status(400).send({message: 'Completar todos los campos'})
 
     try{
@@ -48,14 +48,15 @@ router.post('/', async function(req, res) {
 })
 
 router.put('/', async function(req,res){
-    let { name, code, toCourse, toTakeExam } = req.body;
+    let { name, code, toCourse, toTakeExam,period } = req.body;
     let { subjectId } = req.query;
     try{
         let subject = await Subject.update({
             name,
             code,
             toCourse,
-            toTakeExam
+            toTakeExam,
+            period
         },{
             where: {
                 id: subjectId

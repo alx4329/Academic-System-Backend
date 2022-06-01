@@ -8,7 +8,8 @@ const updateSubject =  (name, code, toCourse, toTakeExam) =>{
                 name,
                 code,
                 toCourse: toCourse,
-                toTakeExam: toTakeExam
+                toTakeExam: toTakeExam,
+                period
             })
             resolve(subject)
         }catch(e){
