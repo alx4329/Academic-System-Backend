@@ -1,4 +1,4 @@
-const { Subject, Career } = require('../db');
+const { Subject, Career, career_subject } = require('../db');
 const router = require('express').Router();
 const createSubject = require('../functions/createSubject');
 
@@ -84,7 +84,38 @@ router.delete('/', async function(req,res){
     }
 })
 
+router.post('/allInCareer', async function(req, res){
+    try{
+        console.log(req.body)
+        let { careerId } = req.body;
+        console.log(careerId)
+        const careerSubjects = await career_subject.findAll({
+            where:{
+                careerId
+            }
+        })
+        if(careerSubjects.length === 0) res.send({error: "No hay materias relacionadas"})
+        else{
+            await career_subject.destroy({
+                where:{
+                    careerId
+                }
+            })
+            careerSubjects.forEach(async(sub)=>{
+                await Subject.destroy({
+                    where:{
+                        id:sub.subjectId
+                    }
+                })
+            })
+            res.send({status:"ok"})
+        }
 
+    }catch(e){
+        res.status(500).send({error:e})
+    }
+    
+})
 
 
 module.exports = router;
