@@ -48,14 +48,17 @@ router.post('/', async function(req, res) {
 })
 
 router.put('/', async function(req,res){
-    let { name, code, toCourse, toTakeExam,period } = req.body;
+    let { name, code,year, toCourse, toTakeExam, lastSubject,period } = req.body;
     let { subjectId } = req.query;
+    console.log(subjectId)
     try{
         let subject = await Subject.update({
             name,
             code,
+            year,
             toCourse,
             toTakeExam,
+            lastSubject,
             period
         },{
             where: {
@@ -65,7 +68,7 @@ router.put('/', async function(req,res){
         res.send(subject)
     }catch(e){
         console.log(e)
-        res.send({'error': e})
+        res.status(500).send({'error': e})
     }
 })
 //ver si usar esta ruta
