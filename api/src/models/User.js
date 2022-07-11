@@ -18,6 +18,11 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    apellido:{
+      type: DataTypes.STRING,
+      allowNull: false,
+
+    },
     // Este no deberia ser necesario
     // carreras: {
     //   type: DataTypes.ARRAY(DataTypes.STRING),

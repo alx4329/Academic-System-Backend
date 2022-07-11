@@ -1,4 +1,4 @@
-const { User, Admin, Teacher, Student } = require('../db');
+const { User, Admin, Teacher, Student, Career } = require('../db');
 const router = require('express').Router();
 require('dotenv').config();
 const bcrypt = require('bcrypt');
@@ -10,7 +10,7 @@ const validUUID= new RegExp(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0
 
 router.post('/signup',async function(req,res){
     try{
-        const {rol, nombre, email, dni,  username,password, fileNumber} = req.body;        
+        const {rol, nombre, apellido,email, dni,  username,password, fileNumber, careerId} = req.body;     
         const user = await User.findOne({where: {dni}});
         if(user){
             return res.status(500).send({error: 'El usuario ya existe'})
@@ -29,35 +29,37 @@ router.post('/signup',async function(req,res){
                 password: hashedPassword, 
                 username, 
                 rol, 
-                nombre, 
+                nombre,
+                apellido, 
                 dni
             });
             
             if(rol === 'Admin'){
-                console.log("deberia crear Admin")
                 const newAdmin = await Admin.create({ 
-                    name: nombre, 
+                    name: nombre+apellido, 
                     dni
                 });
                 newUser.setAdmin(newAdmin);
             }
             if(rol === 'Docente'){
-                console.log("deberia crear Teacher")
                 const newAdmin = await Teacher.create({ 
-                    name: nombre, 
+                    name: nombre,
+                    surname:apellido, 
                     dni,
                     fileNumber
                 });
                 newUser.setTeacher(newAdmin);
             }
             if(rol === 'Estudiante'){
-                console.log("deberia crear Student")
-                const newAdmin = await Student.create({ 
-                    name: nombre, 
+                const career = await Career.findOne({where: {id: careerId}})
+                const newStudent = await Student.create({ 
+                    name: nombre,
+                    surname:apellido, 
                     dni,
                     fileNumber
                 });
-                newUser.setStudent(newAdmin);
+                newUser.setStudent(newStudent);
+                newStudent.setCareer(career)
             }
             return res.send({
                 user:{
@@ -92,6 +94,7 @@ router.post('/signin', async function(req, res) {
                         email: user.email,
                         rol: user.rol,
                         nombre: user.nombre,
+                        apellido:user.apellido
                     }
                 })
             }else {

@@ -13,7 +13,7 @@ router.get('/',async function(req,res){
             })
             student? res.send(student) : res.status(404).send({message: "No se encontro el estudiante"})
         } else {
-            let students = await Student.findAll()            
+            let students = await Student.findAll({include: User})            
             res.send(students)
         }        
     } catch (error){
