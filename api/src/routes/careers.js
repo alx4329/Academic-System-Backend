@@ -16,7 +16,7 @@ router.get('/',async function(req,res){
                 include:{
                     model: Subject, attributes:{exclude:["createdAt","updatedAt"]}, through: {attributes: []}}
             })
-            career? res.send(career): res.status(500).status(404).send({error: "No se encontro la carrera"})
+            career? res.send(career): res.sendStatus(500).send({error: "No se encontro la carrera"})
         } else {
             let careers = await Career.findAll()            
             // console.log(careers)
@@ -61,7 +61,7 @@ router.put('/', async function(req,res){
                     id: careerId
                 }
             })
-            career[0]===1?   res.send(career): res.status(404).send({message: "No se encontro la carrera"})
+            career[0]===1?   res.send(career): res.sendStatus(404).send({message: "No se encontro la carrera"})
         }catch(e){
             console.log(e)
             res.send({'error': e})

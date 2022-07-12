@@ -80,14 +80,17 @@ router.put('/', async function(req,res){
 })
 
 router.delete('/',async function(req,res){
-    let { studentId } = req.query;
+    let { dni } = req.query;
     try{
         let student = await Student.destroy({
-            where: {
-                id: studentId
-            }
+            where: {dni}
         })
-        student? res.send(student) : res.status(404).send({message: "No se pudo eliminar el estudiante"})
+        
+        let user= await User.destroy({
+            where: {dni}
+        })
+        
+        student && user ? res.send({status:"ok"}) : res.sendStatus(404).send({message: "No se pudo eliminar el estudiante"})
     }catch(e){
         console.log(e)
         res.send({'error': e})

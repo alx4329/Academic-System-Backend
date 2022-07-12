@@ -12,7 +12,7 @@ router.get('/',async function(req,res){
             })
             teacher? res.send(teacher) : res.status(404).send({message: "No se encontro el profesor"})
         } else {
-            let teachers = await Teacher.findAll()            
+            let teachers = await Teacher.findAll({include: User})            
             res.send(teachers)
         }        
     } catch (error){
@@ -87,7 +87,23 @@ router.put('/', async function(req,res){
     }
 })
 
-
+router.delete('/',async function(req,res){
+    let { dni } = req.query;
+    try{
+        let teacher = await Teacher.destroy({
+            where: {dni}
+        })
+        
+        let user= await User.destroy({
+            where: {dni}
+        })
+        
+        teacher && user ? res.send({status:"ok"}) : res.sendStatus(404).send({message: "No se pudo eliminar el estudiante"})
+    }catch(e){
+        console.log(e)
+        res.send({'error': e})
+    }
+})
 
 
 module.exports = router;
