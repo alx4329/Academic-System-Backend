@@ -16,7 +16,6 @@ module.exports = (sequelize) => {
     },
     studentName: {
       type: DataTypes.STRING,
-      unique: true,
       allowNull: false,
     },
     // Este no deberia ser necesario

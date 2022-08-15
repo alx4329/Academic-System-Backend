@@ -24,12 +24,12 @@ router.get('/',async function(req,res){
 
 
 router.post('/', async function(req, res) {
-    // console.log(req.body); 
+    console.log(req.body); 
     let {careerId, subjectName, studentId, teacherId, score, date} =req.body; 
         const validId=(validUUID).test(careerId)
         const validId2=(validUUID).test(teacherId)
         const validId3=(validUUID).test(studentId)
-            if(!validId || !validId2 || ! validId3) return res.status(404).send({message: "Alguno de los id no es valido"})
+            if(!validId || !validId2 || ! validId3) return res.status(403).send({message: "Alguno de los id no es valido"})
     try{
         let career = await Career.findOne({
             where:{
@@ -57,8 +57,8 @@ router.post('/', async function(req, res) {
                 score,
                 date,
                 subjectName: subject.name,
-                studentName: student.name,
-                teacherName: teacher.name
+                studentName: student.name+ ' ' + student.surname,
+                teacherName: teacher.name+ ' ' + teacher.surname
             })
             await exam.setCareer(career)
             await exam.setSubject(subject)
